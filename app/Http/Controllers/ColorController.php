@@ -15,7 +15,7 @@ class ColorController extends Controller
      */
     public function index()
     {
-        //
+        return Color::all();
     }
 
     /**
@@ -26,7 +26,9 @@ class ColorController extends Controller
      */
     public function store(StoreColorRequest $request)
     {
-        //
+        $q = Color::create($request->validated());
+
+        return response('', 201)->header('Location', url("/api/colors/{$q->id}"));
     }
 
     /**
@@ -37,7 +39,7 @@ class ColorController extends Controller
      */
     public function show(Color $color)
     {
-        //
+        return $color;
     }
 
     /**
@@ -49,7 +51,9 @@ class ColorController extends Controller
      */
     public function update(UpdateColorRequest $request, Color $color)
     {
-        //
+        $color->update($request->validated());
+
+        return response()->json($color);
     }
 
     /**
@@ -60,6 +64,8 @@ class ColorController extends Controller
      */
     public function destroy(Color $color)
     {
-        //
+        $color->delete();
+
+        return response('', 204);
     }
 }

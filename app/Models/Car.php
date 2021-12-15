@@ -18,6 +18,6 @@ class Car extends Model
      */
     public function colors()
     {
-        return $this->hasMany('App\CarColor');
+        return $this->hasMany('App\Models\CarColor');
     }
 }

@@ -15,7 +15,7 @@ class TypeController extends Controller
      */
     public function index()
     {
-        //
+        return Type::all();
     }
 
     /**
@@ -26,7 +26,9 @@ class TypeController extends Controller
      */
     public function store(StoreTypeRequest $request)
     {
-        //
+        $q = Type::create($request->validated());
+
+        return response('', 201)->header('Location', url("/api/types/{$q->id}"));
     }
 
     /**
@@ -37,7 +39,7 @@ class TypeController extends Controller
      */
     public function show(Type $type)
     {
-        //
+        return $type;
     }
 
     /**
@@ -49,7 +51,9 @@ class TypeController extends Controller
      */
     public function update(UpdateTypeRequest $request, Type $type)
     {
-        //
+        $type->update($request->validated());
+
+        return response()->json($type);
     }
 
     /**
@@ -60,6 +64,8 @@ class TypeController extends Controller
      */
     public function destroy(Type $type)
     {
-        //
+        $type->delete();
+
+        return response('', 204);
     }
 }
