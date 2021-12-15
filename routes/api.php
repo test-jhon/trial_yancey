@@ -10,5 +10,4 @@ use App\Http\Controllers\CarController;
 Route::apiResource('manufacturers', ManufacturerController::class)->only(['index','store','destroy']);
 Route::apiResource('types', TypeController::class)->only(['index','store','destroy']);
 Route::apiResource('colors', ColorController::class)->only(['index','store','destroy']);
-// Route::apiResource('cars', CarController::class)->only(['index','store','destroy']);
-Route::apiResource('cars', CarController::class);
+Route::apiResource('cars', CarController::class)->only(['index','store','destroy']);

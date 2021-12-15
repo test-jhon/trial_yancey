@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCarRequest;
-use App\Http\Requests\UpdateCarRequest;
 use App\Models\Car;
 use App\Models\CarColor;
+use App\Http\Resources\CarResource;
+use App\Http\Requests\StoreCarRequest;
+use App\Http\Requests\UpdateCarRequest;
 
 class CarController extends Controller
 {
@@ -16,7 +17,7 @@ class CarController extends Controller
      */
     public function index()
     {
-        return Car::with('colors')->get();
+        return CarResource::collection(Car::with('manufacturer', 'type', 'colors')->get());
     }
 
     /**
@@ -27,12 +28,14 @@ class CarController extends Controller
      */
     public function store(StoreCarRequest $request)
     {
+        $remove_dupe_color_id = array_values(array_unique($request->color_id));
+
         $q = Car::create($request->except('color_id'));
         
-        for ($i = 0; $i < count($request->color_id); $i++) {
+        for ($i = 0; $i < count($remove_dupe_color_id); $i++) {
             CarColor::create([
                 'car_id' => $q->id,
-                'color_id' => $request->color_id[$i],
+                'color_id' => $remove_dupe_color_id[$i],
             ]);
         }
 
@@ -86,6 +89,8 @@ class CarController extends Controller
     public function destroy(Car $car)
     {
         $car->delete();
+
+        CarColor::where('car_id', $car->id)->delete();
 
         return response('', 204);
     }

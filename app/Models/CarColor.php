@@ -12,4 +12,12 @@ class CarColor extends Model
     protected $table = 'car_colors';
 
     protected $guarded = ['id'];
+
+    /**
+     * Get car colors
+     */
+    public function color()
+    {
+        return $this->hasOne('App\Models\CarColor');
+    }
 }
