@@ -15,8 +15,8 @@ class CreateCarColorsTable extends Migration
     {
         Schema::create('car_colors', function (Blueprint $table) {
             $table->id();
-            $table->integer('car_id');
-            $table->integer('color_id');
+            $table->foreignId('car_id')->constrained();
+            $table->foreignId('color_id')->constrained();
             $table->timestamps();
         });
     }
